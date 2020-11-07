@@ -1,5 +1,7 @@
 package SortMyFiles;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -36,5 +38,25 @@ public class FileMove {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void moveFileByExtension(String sourcePath,String targetPath){
+        //need error checking and a lot of fixes
+        File f1 = new File(sourcePath);
+        File f2 = new File(targetPath);
+
+        FilenameFilter filter = new FilenameFilter()
+        {
+            @Override public boolean accept(File dir, String name)
+            {
+                return name.endsWith(".zip");
+            }
+        };
+
+        for (File f : f1.listFiles(filter))
+        {
+            // TODO move to folder2
+        }
+
     }
 }
