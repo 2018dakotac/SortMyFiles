@@ -1,11 +1,15 @@
-package SortMyFiles;
+package SortMyFiles.POC;
+
+import SortMyFiles.POC.DirectoryFunctions;
+import SortMyFiles.POC.FileAttributes;
+import SortMyFiles.POC.FileMove;
+import SortMyFiles.POC.SearchFunctions;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
 
-public class GUI {
+public class oldGUI {
     public JPanel mainPanel;
     private JTabbedPane searchPanel;
     private JTextField fileLocationPathTextField;
@@ -33,7 +37,7 @@ public class GUI {
     private JTextArea searchTextArea;
     private JButton searchButton;
 
-    public GUI() {
+    public oldGUI() {
         moveFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

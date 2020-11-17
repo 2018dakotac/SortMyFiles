@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="SortMyFiles.GUI">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="SortMyFiles.POC.oldGUI">
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -163,6 +163,7 @@
                 </constraints>
                 <properties>
                   <text value="Enter path of directory you'd like to delete"/>
+                  <visible value="false"/>
                 </properties>
               </component>
               <component id="628e9" class="javax.swing.JTextField" binding="dSAMPLESORTINGDIRECTORYTextField" default-binding="true">
@@ -173,6 +174,7 @@
                 </constraints>
                 <properties>
                   <text value="D:\SAMPLE SORTING DIRECTORY\new directory"/>
+                  <visible value="false"/>
                 </properties>
               </component>
               <component id="23d15" class="javax.swing.JButton" binding="createDirectoryButton">
@@ -189,6 +191,7 @@
                 </constraints>
                 <properties>
                   <text value="Delete directory"/>
+                  <visible value="false"/>
                 </properties>
               </component>
               <component id="9a308" class="javax.swing.JTextArea" binding="DirectoryResultTextArea">

@@ -1,4 +1,4 @@
-package SortMyFiles;
+package SortMyFiles.POC;
 
 
 import java.io.IOException;
