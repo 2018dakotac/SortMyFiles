@@ -1,5 +1,7 @@
 package SortMyFiles;
 
+import java.util.ArrayList;
+
 public class MoveFile {
     //probably make this a static class or make all functions static
 
@@ -23,7 +25,7 @@ public class MoveFile {
     return true if all files were moved successfully
    return false if at least one fails
     */
-    public boolean moveFiles(String currentPath,String[] names, String newPath){
+    public boolean moveFiles(String currentPath, ArrayList<String> names, String newPath){
 
         return true;
     }

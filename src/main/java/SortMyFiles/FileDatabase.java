@@ -1,5 +1,7 @@
 package SortMyFiles;
 
+import java.util.ArrayList;
+
 public class FileDatabase {
     /*
     will need a contructor to initialize the embedded data base
@@ -29,16 +31,16 @@ public class FileDatabase {
     this function will return a list of files with the searched tag
     not sure on return type
      */
-    public String[] returnTag(String tag){
-        String [] empty = {};
+    public ArrayList<String> returnTag(String tag){
+        ArrayList<String> empty = new ArrayList<>();
         return empty;
     }
 
     /*
     this function will return a log recent sorts?
      */
-    public String[] returnSortLog(){
-        String [] empty = {};
+    public ArrayList<String> returnSortLog(){
+        ArrayList<String> empty = new ArrayList<>();
         return empty;
     }
 
