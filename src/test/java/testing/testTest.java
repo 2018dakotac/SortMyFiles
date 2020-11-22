@@ -2,6 +2,7 @@ package testing;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
+//TODO: make tests for functions
 
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class testTest {
