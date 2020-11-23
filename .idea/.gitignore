@@ -1,5 +1,7 @@
 #ignoring data base fils
 **/*.mv.db
+#ignore target folder
+../target/
 # Default ignored files
 /shelf/
 /workspace.xml
