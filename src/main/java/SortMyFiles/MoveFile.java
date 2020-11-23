@@ -7,7 +7,7 @@ public class MoveFile {
 
     /*
     this function will copy a file form one place to another
-    TODO: if we make any other functions that involve creating files we should make another directory
+    TODO: if we make any other functions that involve creating files we should make another class file
      */
     public boolean copyFile(String currentPath,String name,String newPath){
 
