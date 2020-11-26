@@ -4,10 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class FileDatabase {
-    //TODO: avoid the repetitive try and catch stuff maybe make this a singleton object and have a constant connection?
-    //not sure how to deal with closing the connection though as there is no destructor... so will probably leave as is
 
-    //private static final String JDBC_DRIVER = "org.h2.Driver";
+
     private static final String DEFAULT_TABLE = "CREATE TABLE IF NOT EXISTS FILEDB " +
             "(path VARCHAR(255) NOT NULL , " +
             " file VARCHAR(255) NOT NULL, " +
@@ -21,9 +19,20 @@ public class FileDatabase {
 
 
     public FileDatabase(){
+        createDefaultTable();
+    }
+    /* this function will delete the default database ( NO UNDO) ask if sure before using
 
-        // Class.forName(JDBC_DRIVER);
-        sendStatement(DEFAULT_TABLE);
+     */
+    public boolean deleteDefaultTable(){
+        String sql = "DROP TABLE FILEDB";
+        return sendStatement(sql);
+    }
+    /*
+    this function will create the default table
+     */
+    public boolean createDefaultTable(){
+        return sendStatement(DEFAULT_TABLE);
     }
     /*
     simple wrapper function to send sql string command to the data base
@@ -75,7 +84,7 @@ public class FileDatabase {
 
 
     /*
-    this function will copy a file to a new location and update the data base
+    this function will  update the data base with for a files new location and/or new name
      */
 
     public boolean updateFile(String currentPath, String currentName, String newPath, String newName){
@@ -101,6 +110,16 @@ public class FileDatabase {
     }
 
     /*
+    this function will delete a file from the table
+     */
+    public boolean deleteFile(String filePath,String fileName){
+        String sql = "DELETE FROM FILEDB WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+        return sendStatement(sql);
+    }
+
+
+
+    /*
     this function will return a list of file paths(including file name) with the searched tag
     not sure on return type
 
@@ -121,7 +140,57 @@ public class FileDatabase {
                 String filePath = rs.getString("path");
                 String fileName = rs.getString("file");
                 result.add(filePath+fileName);
-                System.out.println(filePath+fileName);
+                //System.out.println(filePath+fileName);
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Close connection
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /*
+    this function will return a files tags in an array list 1 to 3
+     */
+    public ArrayList<String> returnTags(String filePath,String fileName){
+        ArrayList<String> result = new ArrayList<>();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DriverManager.getConnection(h2url,username,password);
+            stmt = conn.createStatement();
+            //String query = "SELECT * FROM FILEDB WHERE tag1 ='"+tag+"' OR tag2 ='"+tag+"' OR tag3 = '"+tag+"'";
+            String query = "SELECT * FROM FILEDB WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+            rs = stmt.executeQuery(query);
+
+            while(rs.next()){
+                String tag = rs.getString("tag1");
+                result.add(tag);
+                tag = rs.getString("tag2");
+                result.add(tag);
+                tag = rs.getString("tag3");
+                result.add(tag);
             }
 
             rs.close();
