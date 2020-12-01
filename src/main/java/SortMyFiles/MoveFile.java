@@ -2,6 +2,11 @@ package SortMyFiles;
 
 import java.util.ArrayList;
 
+//<https://www.marcobehler.com/guides/java-files>
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+
 public class MoveFile {
     //probably make this a static class or make all functions static
 

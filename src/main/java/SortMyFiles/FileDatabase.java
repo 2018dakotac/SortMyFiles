@@ -140,7 +140,7 @@ public class FileDatabase {
                 String filePath = rs.getString("path");
                 String fileName = rs.getString("file");
                 result.add(filePath+fileName);
-                //System.out.println(filePath+fileName);
+                System.out.println(filePath+fileName);
             }
 
             rs.close();
@@ -273,6 +273,27 @@ public class FileDatabase {
         ArrayList<String> empty = new ArrayList<>();
         return empty;
     }
+
+
+    public static void main(String[] args) {
+        System.out.println("hellow world");
+        FileDatabase test = new FileDatabase();
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test1.txt");
+
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test2.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test3.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test4.txt");
+        test.printTable();
+        System.out.println("");
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\","test3.txt","first",1);
+        test.findTag("first");
+        test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\","test1.txt","D:\\SAMPLE SORTING DIRECTORY\\","FAKENAME");
+        test.printTable();
+        test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\","FAKENAME");
+
+        test.printTable();
+    }
+
 
 
 

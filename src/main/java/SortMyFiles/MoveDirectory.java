@@ -1,6 +1,6 @@
 package SortMyFiles;
 
-public class MoveDirectory {
+public class MoveDirectory extends Directory {
     //probably make this a static class or make all functions static
 
     //will recursively move a directory and its contents
