@@ -8,7 +8,6 @@ public class FileDatabase {
 
     private static final String DEFAULT_TABLE = "CREATE TABLE IF NOT EXISTS FILEDB " +
             "(path VARCHAR(255) NOT NULL , " +
-            " file VARCHAR(255) NOT NULL, " +
             " tag1 VARCHAR(255) NOT NULL DEFAULT ''," +
             " tag2 VARCHAR(255) NOT NULL DEFAULT ''," +
             " tag3 VARCHAR(255) NOT NULL DEFAULT ''" +
@@ -71,13 +70,13 @@ public class FileDatabase {
     this function will insert a file's information into the data base if it doesnt already exist
 
      */
-    public boolean insertFile(String filePath, String fileName){
+    public boolean insertFile(String filePath){
 
             //this allows duplicates
            // String  sql = "INSERT INTO FILEDB" + "VALUES('"+filePath+"','"+fileName+"','','','')";
-            String sql = "INSERT INTO FILEDB(path,file) SELECT '"+filePath+"','"+fileName+
+            String sql = "INSERT INTO FILEDB(path) SELECT '"+filePath+
                     "' FROM DUAL WHERE NOT EXISTS(SELECT path FROM FILEDB " +
-                    "WHERE path = '"+filePath+"' AND file ='"+fileName+"' LIMIT 1)";
+                    "WHERE path = '"+filePath+"' LIMIT 1)";
             return sendStatement(sql);
 
     }
@@ -87,24 +86,25 @@ public class FileDatabase {
     this function will  update the data base with for a files new location and/or new name
      */
 
-    public boolean updateFile(String currentPath, String currentName, String newPath, String newName){
+    public boolean updateFile(String currentPath,String newPath){
 
-            String sql= "UPDATE FILEDB " + "SET path = '"+newPath+"',file = '"+newName+"' WHERE path = '"+currentPath+"' AND file = '"+currentName+"'";
+            String sql= "UPDATE FILEDB " + "SET path = '"+newPath+"' WHERE path = '"+currentPath+"'";
             return sendStatement(sql);
     }
+
 
     /*
     this function will add a tag to the file within the data base for a specific tag column
      */
-    public boolean addTag(String filePath,String fileName, String tag, Integer tagNum){
+    public boolean addTag(String filePath, String tag, Integer tagNum){
 
         String sql;
             if(tagNum ==1) {
-                sql = "UPDATE FILEDB " + "SET tag1 = '"+tag+"'" + " WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+                sql = "UPDATE FILEDB " + "SET tag1 = '"+tag+"'" + " WHERE path = '"+filePath+"'";
             }else if(tagNum == 2){
-                 sql = "UPDATE FILEDB " + "SET tag2 = '"+tag+"'" + " WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+                sql = "UPDATE FILEDB " + "SET tag2 = '"+tag+"'" + " WHERE path = '"+filePath+"'";
             }else{
-                 sql = "UPDATE FILEDB " + "SET tag3 = '"+tag+"'" + " WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+                sql = "UPDATE FILEDB " + "SET tag3 = '"+tag+"'" + " WHERE path = '"+filePath+"'";
             }
            return sendStatement(sql);
     }
@@ -112,8 +112,8 @@ public class FileDatabase {
     /*
     this function will delete a file from the table
      */
-    public boolean deleteFile(String filePath,String fileName){
-        String sql = "DELETE FROM FILEDB WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+    public boolean deleteFile(String filePath){
+        String sql = "DELETE FROM FILEDB WHERE path = '"+filePath+"'";
         return sendStatement(sql);
     }
 
@@ -138,9 +138,8 @@ public class FileDatabase {
 
             while(rs.next()){
                 String filePath = rs.getString("path");
-                String fileName = rs.getString("file");
-                result.add(filePath+fileName);
-                System.out.println(filePath+fileName);
+                result.add(filePath);
+                //System.out.println(filePath+fileName);
             }
 
             rs.close();
@@ -172,7 +171,7 @@ public class FileDatabase {
     /*
     this function will return a files tags in an array list 1 to 3
      */
-    public ArrayList<String> returnTags(String filePath,String fileName){
+    public ArrayList<String> returnTags(String filePath){
         ArrayList<String> result = new ArrayList<>();
         Connection conn = null;
         Statement stmt = null;
@@ -181,7 +180,7 @@ public class FileDatabase {
             conn = DriverManager.getConnection(h2url,username,password);
             stmt = conn.createStatement();
             //String query = "SELECT * FROM FILEDB WHERE tag1 ='"+tag+"' OR tag2 ='"+tag+"' OR tag3 = '"+tag+"'";
-            String query = "SELECT * FROM FILEDB WHERE path = '"+filePath+"' AND file = '"+fileName+"'";
+            String query = "SELECT * FROM FILEDB WHERE path = '"+filePath+"'";
             rs = stmt.executeQuery(query);
 
             while(rs.next()){
@@ -234,11 +233,10 @@ public class FileDatabase {
             rs = stmt.executeQuery(query);
             while(rs.next()){
                 String filePath = rs.getString("path");
-                String fileName = rs.getString("file");
                 String tag1 = rs.getString("tag1");
                 String tag2 = rs.getString("tag2");
                 String tag3 = rs.getString("tag3");
-                System.out.println("PATH: "+filePath+ " FILE: "+ fileName+" TAG1: "+tag1+" TAG2 "+tag2+" TAG3: " + tag3);
+                System.out.println("PATH: "+filePath+ " TAG1: "+tag1+" TAG2 "+tag2+" TAG3: " + tag3);
             }
 
             rs.close();
@@ -267,7 +265,7 @@ public class FileDatabase {
     }
 
     /*
-    this function will return a log recent sorts? gh
+    this function will return a log recent sorts?
      */
     public ArrayList<String> returnSortLog(){
         ArrayList<String> empty = new ArrayList<>();
@@ -278,18 +276,20 @@ public class FileDatabase {
     public static void main(String[] args) {
         System.out.println("hellow world");
         FileDatabase test = new FileDatabase();
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test1.txt");
+        test.deleteDefaultTable();
+        test.createDefaultTable();
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test1.txt");
 
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test2.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test3.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test4.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test2.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt");
         test.printTable();
         System.out.println("");
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\","test3.txt","first",1);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","first",1);
         test.findTag("first");
-        test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\","test1.txt","D:\\SAMPLE SORTING DIRECTORY\\","FAKENAME");
+        test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\test1.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
         test.printTable();
-        test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\","FAKENAME");
+        test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
 
         test.printTable();
     }

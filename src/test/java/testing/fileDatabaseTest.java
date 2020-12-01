@@ -27,10 +27,10 @@ public class fileDatabaseTest {
     }
     @Before
     public void init(){
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test1.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test2.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test3.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\","test4.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test1.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test2.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt");
     }
     @After
     public void cleanTable(){
@@ -40,9 +40,9 @@ public class fileDatabaseTest {
 
     @Test
     public void tagTest(){
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\","test1.txt","yeet",1);
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\","test2.txt","yeet",2);
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\","test3.txt","yeet",3);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test1.txt","yeet",1);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test2.txt","yeet",2);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","yeet",3);
         ArrayList<String> testList = test.findTag("yeet");
         assertEquals("array lists are not the same","D:\\SAMPLE SORTING DIRECTORY\\test1.txt",testList.get(0));
         assertEquals("array lists are not the same","D:\\SAMPLE SORTING DIRECTORY\\test2.txt",testList.get(1));
@@ -50,9 +50,9 @@ public class fileDatabaseTest {
     }
     @Test
     public void tableManagementTest(){
-        assertTrue(test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\","test4.txt","D:\\SAMPLE SORTING DIRECTORY\\","FAKENAME"));
-        assertTrue(test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\","FAKENAME"));
-        assertTrue(test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\","test2.txt"));
+        assertTrue(test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt"));
+        assertTrue(test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt"));
+        assertTrue(test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\test2.txt"));
 
 
     }
