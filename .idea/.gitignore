@@ -2,6 +2,8 @@
 **/*.mv.db
 #ignore target folder
 ../target/
+#ignore the sample directory for testing
+../SAMPLE SORTING DIRECTORY
 # Default ignored files
 /shelf/
 /workspace.xml
