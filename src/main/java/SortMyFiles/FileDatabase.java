@@ -2,9 +2,8 @@ package SortMyFiles;
 
 import java.sql.*;
 import java.util.ArrayList;
-
+//is it worth making this all static?
 public class FileDatabase {
-
 
     private static final String DEFAULT_TABLE = "CREATE TABLE IF NOT EXISTS FILEDB " +
             "(path VARCHAR(255) NOT NULL , " +
@@ -80,17 +79,27 @@ public class FileDatabase {
             return sendStatement(sql);
 
     }
+    /*
+    this function will copy a database insert
+     */
+    public boolean copyFile(String filePath, String newPath){
+
+
+        return true;
+    }
 
 
     /*
     this function will  update the data base with for a files new location and/or new name
+    can be called on entries that may not exist without problem
      */
 
     public boolean updateFile(String currentPath,String newPath){
 
-            String sql= "UPDATE FILEDB " + "SET path = '"+newPath+"' WHERE path = '"+currentPath+"'";
+            String sql= "UPDATE FILEDB SET path = '"+newPath+"' WHERE path = '"+currentPath+"'";
             return sendStatement(sql);
     }
+
 
 
     /*
@@ -139,8 +148,50 @@ public class FileDatabase {
             while(rs.next()){
                 String filePath = rs.getString("path");
                 result.add(filePath);
-                //System.out.println(filePath+fileName);
+                //System.out.println(filePath);
             }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Close connection
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+    /*
+   this function will return a files tags in an array list 1 to 3
+    */
+    public boolean inDatabase(String filePath){
+        boolean result = false;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DriverManager.getConnection(h2url,username,password);
+            stmt = conn.createStatement();
+            //String query = "SELECT * FROM FILEDB WHERE tag1 ='"+tag+"' OR tag2 ='"+tag+"' OR tag3 = '"+tag+"'";
+            String query = "SELECT * FROM FILEDB WHERE path = '"+filePath+"'";
+            rs = stmt.executeQuery(query);
+
+             result = rs.next() ;
 
             rs.close();
             stmt.close();
@@ -274,7 +325,6 @@ public class FileDatabase {
 
 
     public static void main(String[] args) {
-        System.out.println("hellow world");
         FileDatabase test = new FileDatabase();
         test.deleteDefaultTable();
         test.createDefaultTable();
@@ -287,10 +337,23 @@ public class FileDatabase {
         System.out.println("");
         test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","first",1);
         test.findTag("first");
-        test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\test1.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
+        ArrayList<String> bruh = test.returnTags("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
+        for(String temp: bruh){
+            if(!temp.isEmpty())
+            System.out.println("return tag:"+temp);
+        }
+        test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
+        test.updateFile("D:\\SAMPasdfasdfasdfLE SORTING DIRECTORY\\test1.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
+        //test.updateFileIfExist("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","D:\\SAMPLE SORTING DIRECTORY\\please\\test4.txt");
         test.printTable();
+        test.findTag("first");
+        bruh = test.returnTags("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
+        for(String temp: bruh){
+            if(!temp.isEmpty())
+                System.out.println("return tag:"+temp);
+        }
         test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
-
+        System.out.println("");
         test.printTable();
     }
 
