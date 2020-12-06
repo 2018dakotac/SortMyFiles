@@ -3,6 +3,10 @@ package SortMyFiles;
 import java.sql.*;
 import java.util.ArrayList;
 //is it worth making this all static?
+/*
+NOTE:
+must pass absolute paths as strings for guaranteed functionality
+ */
 public class FileDatabase {
 
     private static final String DEFAULT_TABLE = "CREATE TABLE IF NOT EXISTS FILEDB " +
@@ -22,7 +26,7 @@ public class FileDatabase {
     /* this function will delete the default database ( NO UNDO) ask if sure before using
 
      */
-    public boolean deleteDefaultTable(){
+    public boolean DELETEWHOLETABLE(){
         String sql = "DROP TABLE FILEDB";
         return sendStatement(sql);
     }
@@ -70,28 +74,71 @@ public class FileDatabase {
 
      */
     public boolean insertFile(String filePath){
-
-            //this allows duplicates
-           // String  sql = "INSERT INTO FILEDB" + "VALUES('"+filePath+"','"+fileName+"','','','')";
             String sql = "INSERT INTO FILEDB(path) SELECT '"+filePath+
                     "' FROM DUAL WHERE NOT EXISTS(SELECT path FROM FILEDB " +
                     "WHERE path = '"+filePath+"' LIMIT 1)";
             return sendStatement(sql);
 
     }
-    /*
-    this function will copy a database insert
-     */
-    public boolean copyFile(String filePath, String newPath){
+    //will insert but will make duplicates
+    public boolean insertFileFast(String filePath){
+        String  sql = "INSERT INTO FILEDB VALUES('"+filePath+"','','','')";
+        return sendStatement(sql);
+    }
 
-
-        return true;
+    public boolean insertFileFast(String filePath,String tag1,String tag2, String tag3){
+        String  sql = "INSERT INTO FILEDB VALUES('"+filePath+"','"+tag1+"','"+tag2+"','"+tag3+"')";
+        return sendStatement(sql);
     }
 
 
     /*
-    this function will  update the data base with for a files new location and/or new name
-    can be called on entries that may not exist without problem
+    this function will copy a database insert if it exists
+     */
+    public void copyFile(String currentPath,String newPath){
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DriverManager.getConnection(h2url,username,password);
+            stmt = conn.createStatement();
+            String query = "SELECT * FROM FILEDB WHERE path = '"+currentPath+"'";
+            rs = stmt.executeQuery(query);
+
+            if(rs.next()){
+                //kind of inefficient but better readability.
+                String tag1 = rs.getString("tag1");
+                String tag2 = rs.getString("tag2");
+                String tag3 = rs.getString("tag3");
+                insertFileFast(newPath,tag1,tag2,tag3);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Close connection
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /*
+    this function will  update the data base with for a files new location and/or new name if it exists
      */
 
     public boolean updateFile(String currentPath,String newPath){
@@ -234,13 +281,13 @@ public class FileDatabase {
             String query = "SELECT * FROM FILEDB WHERE path = '"+filePath+"'";
             rs = stmt.executeQuery(query);
 
-            while(rs.next()){
-                String tag = rs.getString("tag1");
-                result.add(tag);
-                tag = rs.getString("tag2");
-                result.add(tag);
-                tag = rs.getString("tag3");
-                result.add(tag);
+            if(rs.next()){
+                String tag1 = rs.getString("tag1");
+                result.add(tag1);
+                String tag2 = rs.getString("tag2");
+                result.add(tag2);
+                String tag3 = rs.getString("tag3");
+                result.add(tag3);
             }
 
             rs.close();
@@ -289,7 +336,7 @@ public class FileDatabase {
                 String tag3 = rs.getString("tag3");
                 System.out.println("PATH: "+filePath+ " TAG1: "+tag1+" TAG2 "+tag2+" TAG3: " + tag3);
             }
-
+            System.out.println();
             rs.close();
             stmt.close();
             conn.close();
@@ -323,12 +370,15 @@ public class FileDatabase {
         return empty;
     }
 
-
+//old tests
+    ///*
     public static void main(String[] args) {
         FileDatabase test = new FileDatabase();
-        test.deleteDefaultTable();
+        test.DELETEWHOLETABLE();
         test.createDefaultTable();
+        System.out.println(test.inDatabase("asldkjfla;skjdf"));
         test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test1.txt");
+        System.out.println(test.inDatabase("D:\\SAMPLE SORTING DIRECTORY\\test1.txt"));
 
         test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test2.txt");
         test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
@@ -356,8 +406,7 @@ public class FileDatabase {
         System.out.println("");
         test.printTable();
     }
-
-
+    //*/
 
 
 
