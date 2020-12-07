@@ -5,6 +5,8 @@ module SortMyFiles {
     requires java.sql;
 
     opens SortMyFiles to javafx.fxml;
+    opens SortMyFiles.Controllers;
+
     exports SortMyFiles;
 
 }
