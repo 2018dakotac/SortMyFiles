@@ -265,6 +265,50 @@ public class FileDatabase {
         }
         return result;
     }
+    /*
+    this function will return a files tags in an array list 1 to 3
+     */
+    public boolean hasTag(String filePath,String tag){
+        boolean result = false;
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DriverManager.getConnection(h2url,username,password);
+            stmt = conn.createStatement();
+            //String query = "SELECT * FROM FILEDB WHERE tag1 ='"+tag+"' OR tag2 ='"+tag+"' OR tag3 = '"+tag+"'";
+            String query = "SELECT * FROM FILEDB WHERE path = '"+filePath+"'";
+            rs = stmt.executeQuery(query);
+
+            if(rs.next()){//returns true if any of the tags match
+                if(rs.getString("tag1")==tag||rs.getString("tag2")==tag||rs.getString("tag3")==tag){
+                    result = true;
+                }
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Close connection
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
 
     /*
     this function will return a files tags in an array list 1 to 3
