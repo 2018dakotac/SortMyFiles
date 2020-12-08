@@ -1,7 +1,29 @@
 package SortMyFiles;
 
-public class SortFile {
-    //probably make this a static class or make all functions static
+import java.io.IOException;
 
-    //TODO: decide how were doing sorting and make stub functions
+public class SortFile {
+
+    //private FileDatabase db;
+    private DirectoryFunctions dirFunc;
+    private MoveFile mvFile;
+
+    public SortFile(){
+        //db = new FileDatabase();
+        dirFunc = new DirectoryFunctions();
+        mvFile = new MoveFile();
+    }
+
+    public void tagSort(String currentPath,String newPath, String tag) throws IOException{
+
+
+    }
+    public void extensionSortRecursive(String currentPath,String newPath, String tag) throws IOException{
+
+
+    }
+
+
+
+
 }
