@@ -5,7 +5,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.*;
-import java.util.ArrayList;
 
 
 public class MoveFile {
@@ -114,13 +113,13 @@ public class MoveFile {
         Files.createDirectories(dest);
 
         FilenameFilter filter = (dir, name) -> name.endsWith(fileExt);
-        if(f1!=null) {
-            for (File f : f1.listFiles(filter)) {
+        File[] files = f1.listFiles(filter);
+        if(files!=null) {
+            for (File f : files) {
                 Files.move(f.toPath(), dest);
                 db.updateFile(f.toPath().toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
             }
         }
-
     }
 
 
