@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="anchorRoot" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SortMyFiles.Controllers.TagController">
+    <children>
+        <GridPane prefHeight="75.0" prefWidth="800.0" style="-fx-background-color: #1A1A1A;" stylesheets="@Styling.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="169.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="673.0" minWidth="10.0" prefWidth="631.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="button_back" mnemonicParsing="false" onAction="#load_back" prefHeight="69.0" prefWidth="167.0" styleClass="button_back" stylesheets="@Styling.css" text="Back To Menu" textFill="WHITE">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Button>
+            </children>
+        </GridPane>
+        <GridPane alignment="CENTER" layoutY="75.0" prefHeight="525.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="722.0" minWidth="10.0" prefWidth="634.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="166.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="427.0" minHeight="10.0" prefHeight="329.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="315.0" minHeight="10.0" prefHeight="196.0" valignment="CENTER" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <TableView fx:id="tableView" prefHeight="400.0" prefWidth="650.0">
+                    <columns>
+                        <TableColumn fx:id="colName" editable="false" prefWidth="198.0" text="Name" />
+                        <TableColumn fx:id="colDirectory" editable="false" prefWidth="489.0" text="Directory" />
+                    </columns>
+                </TableView>
+                <VBox prefHeight="400.0" prefWidth="150.0" spacing="20.0" GridPane.columnIndex="1">
+                    <children>
+                        <Button fx:id="button_add_file" alignment="CENTER" mnemonicParsing="false" onAction="#Filechooser_file" prefHeight="50.0" prefWidth="150.0" text="Add File(s)" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="50.0" prefWidth="150.0" text="Delete from List" />
+                    </children>
+                </VBox>
+                <Button fx:id="button_tag" mnemonicParsing="false" onAction="#Tag" prefHeight="68.0" prefWidth="107.0" text="Tag" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <GridPane alignment="CENTER" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                        <Button fx:id="button_addtag" mnemonicParsing="false" onAction="#addTag" prefHeight="50.0" prefWidth="103.0" text="Add New Tag" />
+                  <TextField fx:id="add_Tagtext" prefHeight="37.0" prefWidth="174.0" GridPane.columnIndex="1" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="100.0" text="Chosen Tag:" textAlignment="CENTER" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label fx:id="label_tag" prefHeight="50.0" prefWidth="140.0" GridPane.columnIndex="3" />
+                  <Button fx:id="button_addtag" layoutX="38.0" layoutY="83.0" mnemonicParsing="false" onAction="#addTag" prefHeight="50.0" prefWidth="103.0" text="Add Tag" />
+               </children>
+            </GridPane>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

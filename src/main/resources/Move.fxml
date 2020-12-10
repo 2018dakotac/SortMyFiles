@@ -33,14 +33,15 @@
          <children>
             <TableView fx:id="tableView" prefHeight="400.0" prefWidth="650.0">
               <columns>
-                <TableColumn fx:id="colName" editable="false" prefWidth="198.0" text="File Name" />
+                <TableColumn fx:id="colName" editable="false" prefWidth="198.0" text="Name" />
                 <TableColumn fx:id="colDirectory" editable="false" prefWidth="489.0" text="Directory" />
               </columns>
             </TableView>
             <VBox prefHeight="400.0" prefWidth="150.0" spacing="20.0" GridPane.columnIndex="1">
                <children>
-                  <Button fx:id="button_add" alignment="CENTER" mnemonicParsing="false" onAction="#Filechooser" prefHeight="50.0" prefWidth="150.0" text="Add Files" />
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="50.0" prefWidth="150.0" text="Delete Selected File(s)" />
+                  <Button fx:id="button_add_file" alignment="CENTER" mnemonicParsing="false" onAction="#Filechooser_file" prefHeight="50.0" prefWidth="150.0" text="Add File(s)" />
+                  <Button fx:id="button_add_dir" alignment="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Filechooser_dir" prefHeight="50.0" prefWidth="150.0" text="Add Directory" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="50.0" prefWidth="150.0" text="Delete from List" />
                </children>
             </VBox>
             <Button fx:id="button_move" mnemonicParsing="false" onAction="#Move" prefHeight="68.0" prefWidth="107.0" text="Move" GridPane.columnIndex="1" GridPane.rowIndex="1" />

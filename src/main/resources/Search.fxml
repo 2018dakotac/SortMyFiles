@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="anchorRoot" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SortMyFiles.Controllers.SearchController">
+    <children>
+        <GridPane prefHeight="75.0" prefWidth="800.0" style="-fx-background-color: #1A1A1A;" stylesheets="@Styling.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="169.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="673.0" minWidth="10.0" prefWidth="631.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="button_back" mnemonicParsing="false" onAction="#load_back" prefHeight="69.0" prefWidth="167.0" styleClass="button_back" stylesheets="@Styling.css" text="Back To Menu" textFill="WHITE">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Button>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

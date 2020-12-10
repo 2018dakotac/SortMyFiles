@@ -40,23 +40,23 @@ public class MainController implements Initializable {
     }
     @FXML
     private void loadSort(ActionEvent event) throws IOException {
-        load(event, "/Move.fxml", button_sort);
+        load(event, "/Sort.fxml", button_sort);
     }
     @FXML
     private void loadDelete(ActionEvent event) throws IOException {
-        load(event, "/Move.fxml", button_delete);
+        load(event, "/Delete.fxml", button_delete);
     }
     @FXML
     private void loadRename(ActionEvent event) throws IOException {
-        load(event, "/Move.fxml", button_rename);
+        load(event, "/Rename.fxml", button_rename);
     }
     @FXML
     private void loadTag(ActionEvent event) throws IOException {
-        load(event, "/Move.fxml", button_tag);
+        load(event, "/Tag.fxml", button_tag);
     }
     @FXML
     private void loadSearch(ActionEvent event) throws IOException {
-        load(event, "/Move.fxml", button_search);
+        load(event, "/Search.fxml", button_search);
     }
     @FXML
     private void load(ActionEvent event, String filename, Button btn) throws IOException {

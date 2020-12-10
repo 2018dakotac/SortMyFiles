@@ -1,14 +1,14 @@
 package SortMyFiles.Controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -16,15 +16,18 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MoveController implements Initializable {
+public class TagController implements Initializable {
     @FXML
     private AnchorPane anchorRoot;
     @FXML
     private Button button_back;
     @FXML
-    private Label label_destination;
+    private TextField add_Tagtext;
+    @FXML
+    private Button button_addtag;
+    @FXML
+    private Label label_tag;
 
-    public boolean dirchosen = false;
     //Table
     @FXML
     private TableView<table_File> tableView;
@@ -42,6 +45,12 @@ public class MoveController implements Initializable {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    @FXML
+    private void load_back(ActionEvent event) throws IOException {
+        Effect effect = new Effect();
+        effect.load_back(event, button_back, anchorRoot);
+    }
+
 
     @FXML
     private void Filechooser_file(ActionEvent event) throws IOException{
@@ -54,20 +63,6 @@ public class MoveController implements Initializable {
                     table_File newFile = new table_File(file.getName(), file.getAbsolutePath());
                     tableView.getItems().add(newFile);
                 }
-            }
-        }
-        catch (Exception e){
-            //stub
-        }
-    }
-    @FXML
-    private void Filechooser_dir(ActionEvent event) throws IOException{
-        try {
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            File dir = directoryChooser.showDialog(null);
-            if( dir != null) {
-                table_File newFile = new table_File(dir.getName(), dir.getAbsolutePath());
-                tableView.getItems().add(newFile);
             }
         }
         catch (Exception e){
@@ -90,37 +85,24 @@ public class MoveController implements Initializable {
         }
     }
     @FXML
-    private void load_back(ActionEvent event) throws IOException {
-        Effect effect = new Effect();
-        effect.load_back(event, button_back, anchorRoot);
-    }
-
-    @FXML
-    private void destination(ActionEvent event) throws  IOException {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File file = directoryChooser.showDialog(null);
-        if(file != null){
-            label_destination.setText("Selected Destination : " + file.getAbsolutePath());
-            dirchosen = true;
-        }
-
-
-    }
-
-    @FXML
-    private void Move(ActionEvent event) throws IOException{
-        //Ensure dir is selected
-        if(dirchosen == false){
-            //Stub or throw error
+    private void addTag(ActionEvent event) throws IOException{
+        String newTag = add_Tagtext.getText();
+        if(newTag == "" || newTag == " "){
+            add_Tagtext.setText("Missing Tag!");
         }
         else{
-            //move
-
-            //clear table contents
-            tableView.getItems().clear();
-            //display a message files Moved
-
-
+            label_tag.setText(newTag);
+            add_Tagtext.setText("");
+            //check if tag already exists or need to add to db
         }
+
+    }
+    @FXML
+    private void Tag(ActionEvent event) throws IOException{
+        //Add files with tag to db
+
+        //clear table contents
+        tableView.getItems().clear();
+
     }
 }

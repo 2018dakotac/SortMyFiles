@@ -3,12 +3,14 @@ package SortMyFiles.Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -16,15 +18,12 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MoveController implements Initializable {
+public class DeleteController implements Initializable {
     @FXML
     private AnchorPane anchorRoot;
     @FXML
     private Button button_back;
-    @FXML
-    private Label label_destination;
 
-    public boolean dirchosen = false;
     //Table
     @FXML
     private TableView<table_File> tableView;
@@ -32,7 +31,6 @@ public class MoveController implements Initializable {
     private TableColumn<table_File, String> colName;
     @FXML
     private  TableColumn<table_File, String> colDirectory;
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -42,7 +40,11 @@ public class MoveController implements Initializable {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-
+    @FXML
+    private void load_back(ActionEvent event) throws IOException {
+        Effect effect = new Effect();
+        effect.load_back(event, button_back, anchorRoot);
+    }
     @FXML
     private void Filechooser_file(ActionEvent event) throws IOException{
         try {
@@ -76,7 +78,7 @@ public class MoveController implements Initializable {
     }
 
     @FXML
-    private void deleteButton(ActionEvent event) throws IOException{
+    private void deletefromlist(ActionEvent event) throws IOException{
         try {
             List<table_File> allfiles, selectedfiles;
             allfiles = tableView.getItems();
@@ -90,31 +92,13 @@ public class MoveController implements Initializable {
         }
     }
     @FXML
-    private void load_back(ActionEvent event) throws IOException {
-        Effect effect = new Effect();
-        effect.load_back(event, button_back, anchorRoot);
-    }
-
-    @FXML
-    private void destination(ActionEvent event) throws  IOException {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File file = directoryChooser.showDialog(null);
-        if(file != null){
-            label_destination.setText("Selected Destination : " + file.getAbsolutePath());
-            dirchosen = true;
-        }
-
-
-    }
-
-    @FXML
-    private void Move(ActionEvent event) throws IOException{
-        //Ensure dir is selected
-        if(dirchosen == false){
+    private void Delete(ActionEvent event) throws IOException{
+        //Ensure table is not empty
+        if(tableView.getItems() == null){
             //Stub or throw error
         }
         else{
-            //move
+            //delete from list
 
             //clear table contents
             tableView.getItems().clear();
@@ -123,4 +107,5 @@ public class MoveController implements Initializable {
 
         }
     }
+
 }
