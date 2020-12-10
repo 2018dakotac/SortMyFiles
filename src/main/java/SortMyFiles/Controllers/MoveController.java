@@ -1,5 +1,6 @@
 package SortMyFiles.Controllers;
 
+import SortMyFiles.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -100,7 +101,8 @@ public class MoveController implements Initializable {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File file = directoryChooser.showDialog(null);
         if(file != null){
-            label_destination.setText("Selected Destination : " + file.getAbsolutePath());
+            //label_destination.setText("Selected Destination : " + file.getAbsolutePath());
+            label_destination.setText(file.getAbsolutePath());
             dirchosen = true;
         }
 
@@ -115,7 +117,23 @@ public class MoveController implements Initializable {
         }
         else{
             //move
-
+            List<table_File> allfiles;
+            allfiles = tableView.getItems();
+            //should make a wrapper class that handles moving a directory or file to make this cleaner
+            if(rando.isDirectoryPath(allfiles.get(0).getDirectory())){
+                DirectoryFunctions mvDir = new DirectoryFunctions();
+                for (table_File file : allfiles) {
+                    //mvDir.moveDirectory(file.getDirectory(), rando.combine(label_destination.getText(), file.getName()));
+                    //mvDir.moveDirectory(file.getDirectory(),label_destination.getText());
+                    mvDir.moveDirectoryContents(file.getDirectory(),label_destination.getText());
+                }
+            }else {
+                MoveFile mv = new MoveFile();
+                for (table_File file : allfiles) {
+                    //mv.moveFile(rando.combine(file.getDirectory(),file.getName()),label_destination.getText());
+                    mv.moveFile(file.getDirectory(), rando.combine(label_destination.getText(), file.getName()));
+                }
+            }
             //clear table contents
             tableView.getItems().clear();
             //display a message files Moved
