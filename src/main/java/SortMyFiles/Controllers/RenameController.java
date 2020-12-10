@@ -1,5 +1,8 @@
 package SortMyFiles.Controllers;
 
+import SortMyFiles.DirectoryFunctions;
+import SortMyFiles.MoveFile;
+import SortMyFiles.rando;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +32,7 @@ public class RenameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb){
 
     }
-
+    private String filePath ="";
     @FXML
     private void load_back(ActionEvent event) throws IOException {
         Effect effect = new Effect();
@@ -43,6 +46,7 @@ public class RenameController implements Initializable {
             File f = fc.showOpenDialog(null);
             if(f != null){
                 label_chosen.setText(f.getName());
+                filePath = f.getAbsolutePath();
             }
         }
         catch (Exception e){
@@ -56,6 +60,7 @@ public class RenameController implements Initializable {
             File dir = directoryChooser.showDialog(null);
             if( dir != null) {
                 label_chosen.setText(dir.getName());
+                filePath = dir.getAbsolutePath();
             }
         }
         catch (Exception e){
@@ -67,11 +72,18 @@ public class RenameController implements Initializable {
         String name = newName.getText();
         System.out.println(name);
         //ensure name is valid
-
-        //rename
-
+        if(rando.isFilenameValid(name)) {
+            //rename
+            if (rando.isDirectoryPath(label_chosen.getText())) {
+                //not enough time to deal with renaming non empty directory
+            } else {
+                MoveFile mv = new MoveFile();
+                mv.renameFile(filePath,name);
+            }
+        }
         //clear
         label_chosen.setText("");
         newName.setText("");
+        filePath ="";
     }
 }
