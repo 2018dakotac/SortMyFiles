@@ -1,5 +1,8 @@
 package SortMyFiles.Controllers;
 
+import SortMyFiles.DirectoryFunctions;
+import SortMyFiles.MoveFile;
+import SortMyFiles.rando;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,8 +54,8 @@ public class DeleteController implements Initializable {
             FileChooser fc = new FileChooser();
             //fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files","*pdf"));
             List<File> f = fc.showOpenMultipleDialog(null);
+            if( f != null) {
             for (File file : f) {
-                if( f != null) {
                     table_File newFile = new table_File(file.getName(), file.getAbsolutePath());
                     tableView.getItems().add(newFile);
                 }
@@ -99,6 +102,20 @@ public class DeleteController implements Initializable {
         }
         else{
             //delete from list
+            List<table_File> allfiles;
+            allfiles = tableView.getItems();
+            //should make a wrapper class that handles moving a directory or file to make this cleaner
+            if(rando.isDirectoryPath(allfiles.get(0).getDirectory())){
+                DirectoryFunctions mvDir = new DirectoryFunctions();
+                for (table_File file : allfiles) {
+                    mvDir.deleteDirectory(file.getDirectory());
+                }
+            }else {
+                MoveFile mv = new MoveFile();
+                for (table_File file : allfiles) {
+                    mv.deleteFile(file.getDirectory());
+                }
+            }
 
             //clear table contents
             tableView.getItems().clear();
