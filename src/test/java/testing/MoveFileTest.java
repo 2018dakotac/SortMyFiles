@@ -60,7 +60,11 @@ public class MoveFileTest {
     public void init(){
 
         //make some test directories
-        dirFunc.createDirectory("SAMPLE SORTING DIRECTORY\\MoveFile\\something");
+        try {
+            dirFunc.createDirectory("SAMPLE SORTING DIRECTORY\\MoveFile\\something");
+        }catch(IOException e){
+            e.printStackTrace();
+        }
         assertTrue(makeFile("SAMPLE SORTING DIRECTORY\\MoveFile\\text1.txt"));
         testdb.insertFile(aP("SAMPLE SORTING DIRECTORY\\MoveFile\\text1.txt"));
         testdb.addTag(aP("SAMPLE SORTING DIRECTORY\\MoveFile\\text1.txt"),"mercy",2);

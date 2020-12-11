@@ -51,7 +51,7 @@ public class SortFile {
                         Files.move(path,dest.resolve(path.getFileName()));
                         db.updateFile(path.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
                     }catch(IOException e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         throw new UncheckedIOException(e);
                     }
 
@@ -94,7 +94,7 @@ public class SortFile {
                         Files.move(path,dest.resolve(path.getFileName()));
                         db.updateFile(path.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
                     }catch(IOException e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         throw new UncheckedIOException(e);
                     }
 

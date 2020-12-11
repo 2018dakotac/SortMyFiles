@@ -50,7 +50,7 @@ public class FileDatabase {
             conn.close();
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         } finally {
             try {
@@ -62,7 +62,7 @@ public class FileDatabase {
                     conn.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 return false;
             }
         }
@@ -117,7 +117,7 @@ public class FileDatabase {
             conn.close();
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             try {
                 // Close connection
@@ -131,7 +131,7 @@ public class FileDatabase {
                     conn.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }
@@ -235,7 +235,7 @@ public class FileDatabase {
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             try {
                 // Close connection
@@ -249,7 +249,7 @@ public class FileDatabase {
                     conn.close();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return result;
@@ -277,25 +277,30 @@ public class FileDatabase {
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
-            try {
-                // Close connection
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            backupClose(conn, stmt, rs);
         }
         return result;
     }
+
+    private void backupClose(Connection conn, Statement stmt, ResultSet rs) {
+        try {
+            // Close connection
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+    }
+
     /*
     this function will return a files tags in an array list 1 to 3
      */
@@ -321,22 +326,9 @@ public class FileDatabase {
             conn.close();
         }
         catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
         } finally {
-            try {
-                // Close connection
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            backupClose(conn, stmt, rs);
         }
         return result;
     }
@@ -371,22 +363,9 @@ public class FileDatabase {
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
-            try {
-                // Close connection
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            backupClose(conn, stmt, rs);
         }
         return result;
     }
@@ -434,22 +413,9 @@ this function returns a first tag it finds or no tag
 
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
-            try {
-                // Close connection
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            backupClose(conn, stmt, rs);
         }
     }
 

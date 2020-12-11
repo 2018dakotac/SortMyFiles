@@ -59,8 +59,12 @@ private String aP(String path){
     public void init(){
 
         //make some test directories
-        test.createDirectory("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest\\temp\\DirTest1\\1\\2");
-        test.createDirectory("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest","tempDirTest2");
+        try {
+            test.createDirectory("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest\\temp\\DirTest1\\1\\2");
+            test.createDirectory("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest", "tempDirTest2");
+        }catch(IOException e){
+            e.printStackTrace();
+        }
         assertTrue(makeFile("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest\\temp\\DirTest1\\1\\2\\text2.txt"));
         assertTrue(makeFile("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest\\temp\\DirTest1\\1\\text1.txt"));
         testdb.insertFile(aP("SAMPLE SORTING DIRECTORY\\directoryFunctionsTest\\temp\\DirTest1\\1\\text1.txt"));

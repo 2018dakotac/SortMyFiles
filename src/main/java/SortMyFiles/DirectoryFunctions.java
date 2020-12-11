@@ -22,18 +22,14 @@ public class DirectoryFunctions {
     /*
    this function will create all unmade directories in the given path
     */
-    public void createDirectory(String pathToMake) {
+    public void createDirectory(String pathToMake) throws IOException{
         //create new directory does nothing if it already exists
-        try {
+
             Path target = Paths.get(pathToMake);
             Files.createDirectories(target);
-        } catch (IOException e) {
-            e.printStackTrace();
-            //System.err.println("Failed to make directory" + e.getMessage());
-        }
     }
 
-    public void createDirectory(String directoryPath, String directoryName) {
+    public void createDirectory(String directoryPath, String directoryName) throws IOException{
 
         createDirectory(miscFunc.combine(directoryPath,directoryName));
     }
@@ -67,7 +63,7 @@ public class DirectoryFunctions {
                     try{
                         Files.createDirectories(path);
                     }catch(IOException e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         throw new UncheckedIOException(e);
                     }
 
@@ -82,7 +78,7 @@ public class DirectoryFunctions {
                         Files.move(path,dest);
                         db.updateFile(path.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
                     }catch(IOException e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         throw new UncheckedIOException(e);
                     }
 
@@ -141,7 +137,7 @@ public class DirectoryFunctions {
                     try{
                         Files.createDirectories(path);
                     }catch(IOException e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         throw new UncheckedIOException(e);
                     }
 
@@ -156,7 +152,7 @@ public class DirectoryFunctions {
                         Files.copy(path,dest);
                         db.copyFile(path.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
                     }catch(IOException e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         throw new UncheckedIOException(e);
                     }
 
