@@ -1,5 +1,6 @@
 package SortMyFiles.Controllers;
 
+import SortMyFiles.FileDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -94,6 +95,14 @@ public class TagController implements Initializable {
             label_tag.setText(newTag);
             add_Tagtext.setText("");
             //check if tag already exists or need to add to db
+            //repeat tags will be allowed :(
+            List<table_File> allfiles;
+            allfiles = tableView.getItems();
+            FileDatabase db = new FileDatabase();
+            for(table_File file : allfiles){
+                db.insertFile(file.getDirectory());
+                db.overwriteTag(file.getDirectory(),newTag);
+            }
         }
 
     }

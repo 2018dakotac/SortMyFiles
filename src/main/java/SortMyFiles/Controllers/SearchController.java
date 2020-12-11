@@ -1,5 +1,6 @@
 package SortMyFiles.Controllers;
 
+import SortMyFiles.FileDatabase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,8 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SearchController implements Initializable {
@@ -41,10 +44,14 @@ public class SearchController implements Initializable {
     private void Search(ActionEvent event) throws IOException {
         String tag = tagName.getText();
         //Search in db for tag
-
+        FileDatabase db = new FileDatabase();
+        ArrayList<String> temp = db.findTag(tag);
 
         //Use a for loop to iterate through array and add files 1by1
-        table_File file = new table_File("","Path");
-        tableResult.getItems().add(file);
+        for(String s:temp){
+            table_File file = new table_File("",s);
+            tableResult.getItems().add(file);
+        }
+
     }
 }

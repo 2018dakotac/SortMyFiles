@@ -147,6 +147,15 @@ public class FileDatabase {
             return sendStatement(sql);
     }
 
+    /*
+    this function will  update the data base with for a files new location and/or new name if it exists
+     */
+
+    public boolean deleteTag(String currentPath, int tagNum){
+
+        String sql= "UPDATE FILEDB SET tag"+tagNum+"'' WHERE path = '"+currentPath+"'";
+        return sendStatement(sql);
+    }
 
 
     /*
@@ -163,6 +172,28 @@ public class FileDatabase {
                 sql = "UPDATE FILEDB " + "SET tag3 = '"+tag+"'" + " WHERE path = '"+filePath+"'";
             }
            return sendStatement(sql);
+    }
+    /*
+    this function will add a tag to the file within the data base for a specific tag column
+     */
+    public boolean addTagMultiple(String filePath, String tag1, String tag2, String tag3){
+
+        String sql = "UPDATE FILEDB " + "SET tag1 = '"+tag1+"', tag2 = '"+tag2+"', tag3 = '"+tag3+"' WHERE path = '"+filePath+"'";
+
+        return sendStatement(sql);
+    }
+    /*
+    this function will just cycle tags keeping three previous stored in memory
+     */
+    public void overwriteTag(String filePath, String tag){
+
+        ArrayList<String> temp = returnTags(filePath);
+        if(temp.isEmpty()){
+            addTag(filePath,tag,1);
+        }else{
+            addTagMultiple(filePath,tag,temp.get(0),temp.get(1));
+        }
+
     }
 
     /*
@@ -366,8 +397,14 @@ this function returns a first tag it finds or no tag
         ArrayList<String> tags = returnTags(filePath);
         if (tags.isEmpty()) {
             return "NoTag";
-        } else{
+        } else if (!tags.get(0).isEmpty()){
             return tags.get(0);
+        }
+        else if (!tags.get(1).isEmpty()){
+            return tags.get(1);
+        }
+        else {
+            return tags.get(2);
         }
     }
     /*
@@ -425,7 +462,7 @@ this function returns a first tag it finds or no tag
     }
 
 //old tests
-    /*
+
     public static void main(String[] args) {
         FileDatabase test = new FileDatabase();
         test.DELETEWHOLETABLE();
@@ -438,8 +475,24 @@ this function returns a first tag it finds or no tag
         test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
         test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt");
         test.printTable();
-        System.out.println("");
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","first",1);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","third",3);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test1.txt","first",1);
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test2.txt","second",2);
+        test.printTable();
+        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt"));
+
+        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test2.txt"));
+        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test1.txt"));
+        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt"));
+        test.overwriteTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","yeet");
+        test.overwriteTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","yeet");
+        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt");
+        test.overwriteTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","yeet");
+        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","",1);
+        test.printTable();
+
+
+        /*
         test.findTag("first");
         ArrayList<String> bruh = test.returnTags("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
         for(String temp: bruh){
@@ -459,8 +512,10 @@ this function returns a first tag it finds or no tag
         test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
         System.out.println("");
         test.printTable();
+        */
+
     }
-    */
+
 
 
 

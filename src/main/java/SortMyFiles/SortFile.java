@@ -33,7 +33,7 @@ public class SortFile {
         Path dest = destination.resolve(tag);
         Files.createDirectories(dest);
         Files.move(source,dest.resolve(source.getFileName()));
-        db.updateFile(source.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
+        db.updateFile(source.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
     }
 
     private boolean tagMoveRecursive(String currentPath,String newPath) throws IOException{
@@ -49,7 +49,7 @@ public class SortFile {
                     try{
                         Files.createDirectories(dest);
                         Files.move(path,dest.resolve(path.getFileName()));
-                        db.updateFile(path.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
+                        db.updateFile(path.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
                     }catch(IOException e){
                         e.printStackTrace();
                         throw new UncheckedIOException(e);
@@ -75,7 +75,7 @@ public class SortFile {
         Path dest = destination.resolve(FilenameUtils.getExtension(source.toAbsolutePath().toString()));
         Files.createDirectories(dest);
         Files.move(source,dest.resolve(source.getFileName()));
-        db.updateFile(source.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
+        db.updateFile(source.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
     }
     /*
             this function will move all  target directory to a location directory in a folder of their type
@@ -92,7 +92,7 @@ public class SortFile {
                     try{
                         Files.createDirectories(dest);
                         Files.move(path,dest.resolve(path.getFileName()));
-                        db.updateFile(path.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
+                        db.updateFile(path.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
                     }catch(IOException e){
                         e.printStackTrace();
                         throw new UncheckedIOException(e);
