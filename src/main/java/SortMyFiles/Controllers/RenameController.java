@@ -1,8 +1,7 @@
 package SortMyFiles.Controllers;
 
-import SortMyFiles.DirectoryFunctions;
 import SortMyFiles.MoveFile;
-import SortMyFiles.rando;
+import SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +15,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class RenameController implements Initializable {
@@ -72,9 +70,9 @@ public class RenameController implements Initializable {
         String name = newName.getText();
         System.out.println(name);
         //ensure name is valid
-        if(rando.isFilenameValid(name)) {
+        if(miscFunc.isFilenameValid(name)) {
             //rename
-            if (rando.isDirectoryPath(label_chosen.getText())) {
+            if (miscFunc.isDirectoryPath(label_chosen.getText())) {
                 //not enough time to deal with renaming non empty directory
             } else {
                 MoveFile mv = new MoveFile();

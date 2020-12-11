@@ -2,7 +2,7 @@ package SortMyFiles.Controllers;
 
 import SortMyFiles.DirectoryFunctions;
 import SortMyFiles.MoveFile;
-import SortMyFiles.rando;
+import SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -105,7 +105,7 @@ public class DeleteController implements Initializable {
             List<table_File> allfiles;
             allfiles = tableView.getItems();
             //should make a wrapper class that handles moving a directory or file to make this cleaner
-            if(rando.isDirectoryPath(allfiles.get(0).getDirectory())){
+            if(miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())){
                 DirectoryFunctions mvDir = new DirectoryFunctions();
                 for (table_File file : allfiles) {
                     mvDir.deleteDirectory(file.getDirectory());

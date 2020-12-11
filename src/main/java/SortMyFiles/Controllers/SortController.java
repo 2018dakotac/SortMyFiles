@@ -1,5 +1,7 @@
 package SortMyFiles.Controllers;
 
+
+import SortMyFiles.SortFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +110,8 @@ public class SortController implements Initializable {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File file = directoryChooser.showDialog(null);
         if(file != null){
-            label_destination.setText("Selected Destination : " + file.getAbsolutePath());
+            //label_destination.setText("Selected Destination : " + file.getAbsolutePath());
+            label_destination.setText(file.getAbsolutePath());
             dirchosen = true;
         }
     }
@@ -121,17 +125,26 @@ public class SortController implements Initializable {
         else{
             //Sort
             String result = Sortby.getValue();
+            SortFile sort = new SortFile();
+            List<table_File> allfiles;
+            allfiles = tableView.getItems();
             if (result == "Extension") {
-
+                    for (table_File file : allfiles) {
+                        //need to parse file extension
+                        sort.extensionSort(file.getDirectory(),label_destination.getText());
+                    }
             }
             else if( result == "Name"){
-
+                //removing
             }
             else if( result == "Size"){
 
             }
             else if( result == "Tag"){
-
+                for (table_File file : allfiles) {
+                    //need to parse file extension
+                    sort.tagSort(file.getDirectory(),label_destination.getText());
+                }
             }
             else{
                 //stub

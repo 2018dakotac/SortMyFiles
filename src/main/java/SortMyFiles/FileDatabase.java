@@ -359,7 +359,17 @@ public class FileDatabase {
         }
         return result;
     }
-
+/*
+this function returns a first tag it finds or no tag
+ */
+    public String getFileSingleTag(String filePath) {
+        ArrayList<String> tags = returnTags(filePath);
+        if (tags.isEmpty()) {
+            return "NoTag";
+        } else{
+            return tags.get(0);
+        }
+    }
     /*
     this prints all contents of the database for easy viewing
      */
@@ -415,7 +425,7 @@ public class FileDatabase {
     }
 
 //old tests
-    ///*
+    /*
     public static void main(String[] args) {
         FileDatabase test = new FileDatabase();
         test.DELETEWHOLETABLE();
@@ -450,7 +460,7 @@ public class FileDatabase {
         System.out.println("");
         test.printTable();
     }
-    //*/
+    */
 
 
 

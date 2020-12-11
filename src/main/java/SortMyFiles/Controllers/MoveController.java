@@ -120,7 +120,7 @@ public class MoveController implements Initializable {
             List<table_File> allfiles;
             allfiles = tableView.getItems();
             //should make a wrapper class that handles moving a directory or file to make this cleaner
-            if(rando.isDirectoryPath(allfiles.get(0).getDirectory())){
+            if(miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())){
                 DirectoryFunctions mvDir = new DirectoryFunctions();
                 for (table_File file : allfiles) {
                     //mvDir.moveDirectory(file.getDirectory(), rando.combine(label_destination.getText(), file.getName()));
@@ -131,7 +131,7 @@ public class MoveController implements Initializable {
                 MoveFile mv = new MoveFile();
                 for (table_File file : allfiles) {
                     //mv.moveFile(rando.combine(file.getDirectory(),file.getName()),label_destination.getText());
-                    mv.moveFile(file.getDirectory(), rando.combine(label_destination.getText(), file.getName()));
+                    mv.moveFile(file.getDirectory(), miscFunc.combine(label_destination.getText(), file.getName()));
                 }
             }
             //clear table contents

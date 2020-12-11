@@ -19,30 +19,33 @@ public class MoveFile {
         return new File(original,pathToAdd).toPath().normalize().toString();
     }
 
+
     /*
     this function will change input path to output path (rename it)
      */
-    public boolean renameFile(String currentPath,String newPath){
-        Path from = Path.of(currentPath);
-        Path to =  Path.of(newPath);
-
+    public boolean renameFile(String currentPath,String newName){
+        Path path = Path.of(currentPath);
+        Path newpath = path.resolveSibling(newName);
         try {
-            Files.move(from, to, StandardCopyOption.REPLACE_EXISTING);
+            Files.move(path, newpath, StandardCopyOption.REPLACE_EXISTING);
             //standard copy operation makes this not fail if used on own directory
-            db.updateFile(from.toAbsolutePath().normalize().toString(), to.toAbsolutePath().normalize().toString());
+            db.updateFile(path.toAbsolutePath().normalize().toString(), newpath.toAbsolutePath().normalize().toString());
             return true;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
+    /*
+    moves function to path ***file name needs to be included in the destination path...
+     */
     public boolean moveFile(String currentPath,String newPath){
         Path from = Path.of(currentPath);
         Path to =  Path.of(newPath);
 
         try {
             Files.move(from, to);
-            //standard copy operation makes this not fail if used on own directory
+            //will fail moving to itself
             db.updateFile(from.toAbsolutePath().normalize().toString(), to.toAbsolutePath().normalize().toString());
             return true;
         } catch (IOException e) {
@@ -54,7 +57,7 @@ public class MoveFile {
 
 
 
-    //this function will move a single file from one directory to another
+    //this function will copy a single file from one directory to another
     public boolean copyFile(String currentPath,String newPath){
         Path from = Path.of(currentPath);
         Path to =  Path.of(newPath);
@@ -80,47 +83,8 @@ public class MoveFile {
         return file.delete();
     }
 
-    /*
-    this function will move all functions with a certain extension from a target directory to a location directory.
-    will have an option to implement recursive moving
-     */
-    public boolean moveFileExtRecursive(String currentPath, String fileExt, String newPath) throws IOException{
-        Path source = Path.of(currentPath);
-        Path destination =  Path.of(newPath);
 
-        Files.createDirectories(destination);
-        Files.walk(source)
-                .filter(path -> path.toString().endsWith(fileExt))
-                .forEach(path -> {
-                    Path dest = destination.resolve(source.relativize(path));
-                    try{
-                        Files.createDirectories(dest.getParent());
-                        Files.move(path,dest);
-                        db.updateFile(path.toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
-                    }catch(IOException e){
-                        e.printStackTrace();
-                        throw new UncheckedIOException(e);
-                    }
 
-                });
-        return true;
-    }
-
-    public void moveFileExt(String currentPath,String newPath,String fileExt) throws IOException{
-        //need error checking and a lot of fixes
-        File f1 = new File(currentPath);
-        Path dest = Path.of(newPath);
-        Files.createDirectories(dest);
-
-        FilenameFilter filter = (dir, name) -> name.endsWith(fileExt);
-        File[] files = f1.listFiles(filter);
-        if(files!=null) {
-            for (File f : files) {
-                Files.move(f.toPath(), dest);
-                db.updateFile(f.toPath().toAbsolutePath().normalize().toString(), dest.toAbsolutePath().normalize().toString());
-            }
-        }
-    }
 
 
 
