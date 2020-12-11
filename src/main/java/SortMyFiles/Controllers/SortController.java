@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class SortController implements Initializable {
 
-    ObservableList<String> sortbyList = FXCollections.observableArrayList("Extension", "Name", "Size", "Tag");
+    ObservableList<String> sortbyList = FXCollections.observableArrayList("Extension", "Size", "Tag");
     @FXML
     private AnchorPane anchorRoot;
     @FXML
@@ -133,9 +133,6 @@ public class SortController implements Initializable {
                         //need to parse file extension
                         sort.extensionSort(file.getDirectory(),label_destination.getText());
                     }
-            }
-            else if( result == "Name"){
-                //removing
             }
             else if( result == "Size"){
 

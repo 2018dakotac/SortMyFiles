@@ -34,14 +34,13 @@
         </rowConstraints>
          <children>
             <Button fx:id="button_add_file" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Filechooser_file" prefHeight="50.0" prefWidth="150.0" text="Add File" textAlignment="CENTER" />
-            <Button fx:id="button_add_dir" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Filechooser_dir" prefHeight="50.0" prefWidth="150.0" text="Add Directory" textAlignment="CENTER" GridPane.columnIndex="1" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="200.0" text="Chosen File/Directory Name" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
             <Label fx:id="label_chosen" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="350.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="183.0" prefHeight="50.0" prefWidth="274.0" text="Enter new Name  (without extension): " textAlignment="CENTER" GridPane.rowIndex="2">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="183.0" prefHeight="50.0" prefWidth="274.0" text="Enter new Name  (with extension): " textAlignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="15.0" />
                </font>

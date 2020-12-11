@@ -52,20 +52,6 @@ public class RenameController implements Initializable {
         }
     }
     @FXML
-    private void Filechooser_dir(ActionEvent event) throws IOException{
-        try {
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            File dir = directoryChooser.showDialog(null);
-            if( dir != null) {
-                label_chosen.setText(dir.getName());
-                filePath = dir.getAbsolutePath();
-            }
-        }
-        catch (Exception e){
-            //stub
-        }
-    }
-    @FXML
     private void Rename(ActionEvent event) throws IOException{
         String name = newName.getText();
         System.out.println(name);
