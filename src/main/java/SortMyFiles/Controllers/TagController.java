@@ -128,6 +128,7 @@ public class TagController implements Initializable {
             }
             //clear table contents
             tableView.getItems().clear();
+            label_tag.setText("");
             Error_label.setText("File has been tagged");
         }catch(UncheckedIOException e){
             Error_label.setText("Error: " +e.getCause());
