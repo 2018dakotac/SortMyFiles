@@ -96,6 +96,13 @@ public class DeleteController implements Initializable {
         }
     }
     @FXML
+    private void deleteTag(ActionEvent event) throws IOException{
+        List<table_File> allfiles;
+        allfiles = tableView.getItems();
+
+        //Delete the Tag on the file
+    }
+    @FXML
     private void Delete(ActionEvent event) throws IOException{
         //Ensure table is not empty
         if(tableView.getItems() == null){

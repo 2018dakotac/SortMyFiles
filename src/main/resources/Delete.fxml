@@ -36,11 +36,12 @@
                 <TableColumn fx:id="colDirectory" prefWidth="574.0" text="Directory" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <children>
                   <Button fx:id="button_add_file" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Filechooser_file" prefHeight="50.0" prefWidth="100.0" text="Add File(s)" />
                   <Button fx:id="button_add_dir" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Filechooser_dir" prefHeight="50.0" prefWidth="100.0" text="Add Directory" />
-                  <Button fx:id="button_delete" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deletefromlist" prefHeight="50.0" prefWidth="100.0" text="Delete from List" />
+                  <Button fx:id="button_delete" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deletefromlist" prefHeight="50.0" prefWidth="100.0" text="Delete from List" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="button_deleteTag" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="43.0" mnemonicParsing="false" onAction="#deleteTag" prefHeight="50.0" prefWidth="100.0" text="Delete Tag" />
                   <Button fx:id="delete" mnemonicParsing="false" onAction="#Delete" prefHeight="70.0" prefWidth="150.0" text="Delete" />
                   <Label fx:id="Error_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="77.0" prefWidth="123.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
                </children></HBox>
