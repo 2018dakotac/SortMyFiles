@@ -6,10 +6,7 @@ import SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
@@ -18,6 +15,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -26,7 +25,8 @@ public class DeleteController implements Initializable {
     private AnchorPane anchorRoot;
     @FXML
     private Button button_back;
-
+    @FXML
+    private Label Error_label;
     //Table
     @FXML
     private TableView<table_File> tableView;
@@ -98,30 +98,44 @@ public class DeleteController implements Initializable {
     private void Delete(ActionEvent event) throws IOException{
         //Ensure table is not empty
         if(tableView.getItems() == null){
-            //Stub or throw error
+            Error_label.setText("Error: Choose a destination directory");
         }
         else{
-            //delete from list
-            List<table_File> allfiles;
-            allfiles = tableView.getItems();
-            //should make a wrapper class that handles moving a directory or file to make this cleaner
-            if(miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())){
-                DirectoryFunctions mvDir = new DirectoryFunctions();
-                for (table_File file : allfiles) {
-                    mvDir.deleteDirectory(file.getDirectory());
+            try {
+                Error_label.setText("");
+                //delete from list
+                List<table_File> allfiles;
+                allfiles = tableView.getItems();
+                //should make a wrapper class that handles moving a directory or file to make this cleaner
+                if (miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())) {
+                    DirectoryFunctions mvDir = new DirectoryFunctions();
+                    for (table_File file : allfiles) {
+                        mvDir.deleteDirectory(file.getDirectory());
+                    }
+                } else {
+                    MoveFile mv = new MoveFile();
+                    for (table_File file : allfiles) {
+                        mv.deleteFile(file.getDirectory());
+                    }
                 }
-            }else {
-                MoveFile mv = new MoveFile();
-                for (table_File file : allfiles) {
-                    mv.deleteFile(file.getDirectory());
-                }
+
+                //clear table contents
+                tableView.getItems().clear();
+                //display a message files Deleted
+                Error_label.setText("Files have been deleted :)");
             }
-
-            //clear table contents
-            tableView.getItems().clear();
-            //display a message files Moved
-
-
+            catch (FileAlreadyExistsException e){
+                Error_label.setText("Error: Files with the same names are being moved");
+            }
+            catch (FileSystemException e){
+                Error_label.setText("Error: File is being used");
+            }
+            catch (IOException e){
+                Error_label.setText("Error: " + e.getMessage());
+            }
+            catch (IndexOutOfBoundsException e){
+                Error_label.setText("Error: Ensure files are added to the list");
+            }
         }
     }
 

@@ -9,12 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystemException;
 import java.util.ResourceBundle;
 
 public class RenameController implements Initializable {
@@ -26,6 +27,8 @@ public class RenameController implements Initializable {
     private Button button_back;
     @FXML
     private TextField newName;
+    @FXML
+    private Label Error_label;
     @Override
     public void initialize(URL url, ResourceBundle rb){
 
@@ -53,21 +56,43 @@ public class RenameController implements Initializable {
     }
     @FXML
     private void Rename(ActionEvent event) throws IOException{
-        String name = newName.getText();
-        System.out.println(name);
-        //ensure name is valid
-        if(miscFunc.isFilenameValid(name)) {
-            //rename
-            if (miscFunc.isDirectoryPath(label_chosen.getText())) {
-                //not enough time to deal with renaming non empty directory
-            } else {
-                MoveFile mv = new MoveFile();
-                mv.renameFile(filePath,name);
+        try {
+            String name = newName.getText();
+            if(label_chosen.getText() == ""){
+                throw new IndexOutOfBoundsException();
             }
+            if (name == "") {
+                throw new Exception();
+            }
+            //ensure name is valid
+            if (miscFunc.isFilenameValid(name)) {
+                //rename
+                if (miscFunc.isDirectoryPath(label_chosen.getText())) {
+                    //not enough time to deal with renaming non empty directory
+                } else {
+                    MoveFile mv = new MoveFile();
+                    mv.renameFile(filePath, name);
+                }
+            }
+            //clear
+            label_chosen.setText("");
+            newName.setText("");
+            filePath = "";
         }
-        //clear
-        label_chosen.setText("");
-        newName.setText("");
-        filePath ="";
+        catch (FileAlreadyExistsException e){
+            Error_label.setText("Error: Files with the same names are being moved");
+        }
+        catch (FileSystemException e){
+            Error_label.setText("Error: File is being used");
+        }
+        catch (IOException e){
+            Error_label.setText("Error: " + e.getMessage());
+        }
+        catch (IndexOutOfBoundsException e){
+            Error_label.setText("Error: Ensure files are added to the list");
+        }
+        catch (Exception e){
+            Error_label.setText("No new name entered");
+        }
     }
 }

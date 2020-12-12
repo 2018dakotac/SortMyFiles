@@ -47,6 +47,7 @@
                         <Font size="18.0" />
                      </font></Label>
                   <ComboBox fx:id="Sortby" prefWidth="150.0" />
+                  <Label fx:id="Error_label" alignment="BOTTOM_LEFT" contentDisplay="CENTER" prefHeight="81.0" prefWidth="173.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
                     </children>
                 </VBox>
                 <Button fx:id="button_sort" mnemonicParsing="false" onAction="#Sort" prefHeight="68.0" prefWidth="107.0" text="Sort" GridPane.columnIndex="1" GridPane.rowIndex="1" />

@@ -41,6 +41,7 @@
                     <children>
                         <Button fx:id="button_add_file" alignment="CENTER" mnemonicParsing="false" onAction="#Filechooser_file" prefHeight="50.0" prefWidth="150.0" text="Add File(s)" />
                         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="50.0" prefWidth="150.0" text="Delete from List" />
+                  <Label fx:id="Error_label" alignment="BOTTOM_LEFT" contentDisplay="CENTER" prefHeight="179.0" prefWidth="164.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
                     </children>
                 </VBox>
                 <Button fx:id="button_tag" mnemonicParsing="false" onAction="#Tag" prefHeight="68.0" prefWidth="107.0" text="Tag" GridPane.columnIndex="1" GridPane.rowIndex="1" />

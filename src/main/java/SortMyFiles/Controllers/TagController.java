@@ -14,6 +14,8 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -28,6 +30,8 @@ public class TagController implements Initializable {
     private Button button_addtag;
     @FXML
     private Label label_tag;
+    @FXML
+    private Label Error_label;
 
     //Table
     @FXML
@@ -88,30 +92,48 @@ public class TagController implements Initializable {
     @FXML
     private void addTag(ActionEvent event) throws IOException{
         String newTag = add_Tagtext.getText();
-        if(newTag == "" || newTag == " "){
-            add_Tagtext.setText("Missing Tag!");
+        try {
+            if (newTag == "" || newTag == " ") throw new Exception();
+            else {
+                label_tag.setText(newTag);
+                add_Tagtext.setText("");
+            }
         }
-        else{
-            label_tag.setText(newTag);
-            add_Tagtext.setText("");
+        catch (Exception e){
+            Error_label.setText("Missing Tag!");
+        }
+    }
+
+    @FXML
+    private void Tag(ActionEvent event) throws IOException{
+        try {
+            Error_label.setText("");
+            String Tag = label_tag.getText();
+            if(Tag == ""){
+                throw new Exception();
+            }
+            //Add files with tag to db
             //check if tag already exists or need to add to db
             //repeat tags will be allowed :(
             List<table_File> allfiles;
             allfiles = tableView.getItems();
-            FileDatabase db = new FileDatabase();
-            for(table_File file : allfiles){
-                db.insertFile(file.getDirectory());
-                db.overwriteTag(file.getDirectory(),newTag);
+            if(allfiles.isEmpty()){
+                throw new IndexOutOfBoundsException();
             }
+            FileDatabase db = new FileDatabase();
+            for (table_File file : allfiles) {
+                db.insertFile(file.getDirectory());
+                db.overwriteTag(file.getDirectory(), Tag);
+            }
+            //clear table contents
+            tableView.getItems().clear();
+            Error_label.setText("File has been tagged");
         }
-
-    }
-    @FXML
-    private void Tag(ActionEvent event) throws IOException{
-        //Add files with tag to db
-
-        //clear table contents
-        tableView.getItems().clear();
-
+        catch (IndexOutOfBoundsException e) {
+            Error_label.setText("Error: Ensure files are added to the list");
+        }
+        catch (Exception e){
+            Error_label.setText("Error: Missing Tag!");
+        }
     }
 }

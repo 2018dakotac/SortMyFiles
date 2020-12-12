@@ -47,6 +47,7 @@
             </Label>
             <TextField fx:id="newName" alignment="CENTER" prefHeight="50.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <Button fx:id="button_rename" alignment="CENTER" contentDisplay="CENTER" layoutX="135.0" layoutY="51.0" mnemonicParsing="false" onAction="#Rename" prefHeight="75.0" prefWidth="190.0" text="Rename" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="Error_label" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" prefHeight="84.0" prefWidth="223.0" textAlignment="CENTER" textFill="RED" wrapText="true" GridPane.rowIndex="3" />
          </children>
       </GridPane>
     </children>

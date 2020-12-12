@@ -42,6 +42,7 @@
                   <Button fx:id="button_add_dir" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Filechooser_dir" prefHeight="50.0" prefWidth="100.0" text="Add Directory" />
                   <Button fx:id="button_delete" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deletefromlist" prefHeight="50.0" prefWidth="100.0" text="Delete from List" />
                   <Button fx:id="delete" mnemonicParsing="false" onAction="#Delete" prefHeight="70.0" prefWidth="150.0" text="Delete" />
+                  <Label fx:id="Error_label" alignment="CENTER" contentDisplay="CENTER" prefHeight="77.0" prefWidth="123.0" textAlignment="CENTER" textFill="RED" textOverrun="CLIP" wrapText="true" />
                </children></HBox>
          </children>
       </GridPane>

@@ -17,12 +17,14 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class SortController implements Initializable {
 
-    ObservableList<String> sortbyList = FXCollections.observableArrayList("Extension", "Size", "Tag");
+    ObservableList<String> sortbyList = FXCollections.observableArrayList("Extension", "Tag");
     @FXML
     private AnchorPane anchorRoot;
     @FXML
@@ -31,6 +33,8 @@ public class SortController implements Initializable {
     private Button button_back;
     @FXML
     private Label label_destination;
+    @FXML
+    private Label Error_label;
     public boolean dirchosen = false;
 
 
@@ -117,39 +121,52 @@ public class SortController implements Initializable {
     }
 
     @FXML
-    private void Sort(ActionEvent event) throws IOException{
+    private void Sort(ActionEvent event)  {
         //Ensure dir is selected
         if(dirchosen == false){
-            //Stub or throw error
+            Error_label.setText("Error: Choose a destination directory");
         }
         else{
-            //Sort
-            String result = Sortby.getValue();
-            SortFile sort = new SortFile();
-            List<table_File> allfiles;
-            allfiles = tableView.getItems();
-            if (result == "Extension") {
+            try {
+                Error_label.setText("");
+                //Sort
+                String result = Sortby.getValue();
+                SortFile sort = new SortFile();
+                List<table_File> allfiles;
+                allfiles = tableView.getItems();
+                if(allfiles.isEmpty()){
+                    throw new IndexOutOfBoundsException();
+                }
+                if (result == "Extension") {
                     for (table_File file : allfiles) {
                         //need to parse file extension
-                        sort.extensionSort(file.getDirectory(),label_destination.getText());
+                        sort.extensionSort(file.getDirectory(), label_destination.getText());
                     }
-            }
-            else if( result == "Size"){
-
-            }
-            else if( result == "Tag"){
-                for (table_File file : allfiles) {
-                    //need to parse file extension
-                    sort.tagSort(file.getDirectory(),label_destination.getText());
+                }  else if (result == "Tag") {
+                    for (table_File file : allfiles) {
+                        //need to parse file extension
+                        sort.tagSort(file.getDirectory(), label_destination.getText());
+                    }
+                } else {
+                    //stub
                 }
+                //clear table contents
+                tableView.getItems().clear();
+                //display a message files sorted
+                Error_label.setText("Files have been sorted :)");
             }
-            else{
-                //stub
+            catch (FileAlreadyExistsException e){
+                Error_label.setText("Error: Files with the same names are being moved into a folder");
             }
-            //clear table contents
-            tableView.getItems().clear();
-            //display a message files sorted
-
+            catch (FileSystemException e){
+                Error_label.setText("Error: File is being used");
+            }
+            catch (IOException e){
+                Error_label.setText("Error: " + e.getMessage());
+            }
+            catch (IndexOutOfBoundsException e){
+                Error_label.setText("Error: Ensure files are added to the list");
+            }
         }
     }
 }

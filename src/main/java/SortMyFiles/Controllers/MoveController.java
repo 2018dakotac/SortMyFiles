@@ -14,6 +14,9 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -24,6 +27,8 @@ public class MoveController implements Initializable {
     private Button button_back;
     @FXML
     private Label label_destination;
+    @FXML
+    private Label Error_label;
 
     public boolean dirchosen = false;
     //Table
@@ -50,8 +55,8 @@ public class MoveController implements Initializable {
             FileChooser fc = new FileChooser();
             //fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files","*pdf"));
             List<File> f = fc.showOpenMultipleDialog(null);
-            for (File file : f) {
-                if( f != null) {
+            if (f != null) {
+                for (File file : f) {
                     table_File newFile = new table_File(file.getName(), file.getAbsolutePath());
                     tableView.getItems().add(newFile);
                 }
@@ -110,35 +115,51 @@ public class MoveController implements Initializable {
     }
 
     @FXML
-    private void Move(ActionEvent event) throws IOException{
+    private void Move(ActionEvent event) {
         //Ensure dir is selected
         if(dirchosen == false){
-            //Stub or throw error
+            Error_label.setText("Error: Choose a destination directory");
         }
         else{
-            //move
-            List<table_File> allfiles;
-            allfiles = tableView.getItems();
-            //should make a wrapper class that handles moving a directory or file to make this cleaner
-            if(miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())){
-                DirectoryFunctions mvDir = new DirectoryFunctions();
-                for (table_File file : allfiles) {
-                    //mvDir.moveDirectory(file.getDirectory(), rando.combine(label_destination.getText(), file.getName()));
-                    //mvDir.moveDirectory(file.getDirectory(),label_destination.getText());
-                    mvDir.moveDirectoryContents(file.getDirectory(),label_destination.getText());
+            try {
+                Error_label.setText("");
+                //move
+                List<table_File> allfiles;
+                allfiles = tableView.getItems();
+                //should make a wrapper class that handles moving a directory or file to make this cleaner
+                if (miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())) {
+                    DirectoryFunctions mvDir = new DirectoryFunctions();
+                    for (table_File file : allfiles) {
+                        //mvDir.moveDirectory(file.getDirectory(), rando.combine(label_destination.getText(), file.getName()));
+                        //mvDir.moveDirectory(file.getDirectory(),label_destination.getText());
+                        mvDir.moveDirectoryContents(file.getDirectory(), label_destination.getText());
+                    }
+                } else {
+                    MoveFile mv = new MoveFile();
+                    for (table_File file : allfiles) {
+                        //mv.moveFile(rando.combine(file.getDirectory(),file.getName()),label_destination.getText());
+                        mv.moveFile(file.getDirectory(), miscFunc.combine(label_destination.getText(), file.getName()));
+                    }
                 }
-            }else {
-                MoveFile mv = new MoveFile();
-                for (table_File file : allfiles) {
-                    //mv.moveFile(rando.combine(file.getDirectory(),file.getName()),label_destination.getText());
-                    mv.moveFile(file.getDirectory(), miscFunc.combine(label_destination.getText(), file.getName()));
-                }
+                //clear table contents
+                tableView.getItems().clear();
+                //Clear Destination
+                label_destination.setText("");
+                //display a message files Moved
+                Error_label.setText("Files have been moved :)");
             }
-            //clear table contents
-            tableView.getItems().clear();
-            //display a message files Moved
-
-
+            catch (FileAlreadyExistsException e){
+                Error_label.setText("Error: Files with the same names are being moved");
+            }
+            catch (FileSystemException e){
+                Error_label.setText("Error: File is being used");
+            }
+            catch (IOException e){
+                Error_label.setText("Error: " + e.getMessage());
+            }
+            catch (IndexOutOfBoundsException e){
+                Error_label.setText("Error: Ensure files are added to the list");
+            }
         }
     }
 }
