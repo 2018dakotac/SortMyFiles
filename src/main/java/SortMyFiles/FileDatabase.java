@@ -19,10 +19,11 @@ public class FileDatabase {
     private static final String username = "sa";
     private static final String password = "";
 
-
+    //will create the database and default table if not yet made
     public FileDatabase(){
         createDefaultTable();
     }
+
     /* this function will delete the default database ( NO UNDO) ask if sure before using
 
      */
@@ -80,13 +81,7 @@ public class FileDatabase {
             return sendStatement(sql);
 
     }
-    //will insert but will make duplicates
-    public boolean insertFileFast(String filePath){
-        String  sql = "INSERT INTO FILEDB VALUES('"+filePath+"','','','')";
-        return sendStatement(sql);
-    }
-
-    public boolean insertFileFast(String filePath,String tag1,String tag2, String tag3){
+    private boolean insertFileFast(String filePath,String tag1,String tag2, String tag3){
         String  sql = "INSERT INTO FILEDB VALUES('"+filePath+"','"+tag1+"','"+tag2+"','"+tag3+"')";
         return sendStatement(sql);
     }
@@ -119,20 +114,7 @@ public class FileDatabase {
         catch (SQLException e) {
             //e.printStackTrace();
         } finally {
-            try {
-                // Close connection
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                //e.printStackTrace();
-            }
+            backupClose(conn, stmt, rs);
         }
     }
 
@@ -147,15 +129,6 @@ public class FileDatabase {
             return sendStatement(sql);
     }
 
-    /*
-    this function will  update the data base with for a files new location and/or new name if it exists
-     */
-
-    public boolean deleteTag(String currentPath, int tagNum){
-
-        String sql= "UPDATE FILEDB SET tag"+tagNum+"'' WHERE path = '"+currentPath+"'";
-        return sendStatement(sql);
-    }
 
 
     /*
@@ -237,20 +210,7 @@ public class FileDatabase {
         catch (SQLException e) {
             //e.printStackTrace();
         } finally {
-            try {
-                // Close connection
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                //e.printStackTrace();
-            }
+            backupClose(conn, stmt, rs);
         }
         return result;
     }
@@ -284,6 +244,7 @@ public class FileDatabase {
         return result;
     }
 
+    //cut down on duplicated code
     private void backupClose(Connection conn, Statement stmt, ResultSet rs) {
         try {
             // Close connection
@@ -386,6 +347,7 @@ this function returns a first tag it finds or no tag
             return tags.get(2);
         }
     }
+
     /*
     this prints all contents of the database for easy viewing
      */
@@ -419,70 +381,25 @@ this function returns a first tag it finds or no tag
         }
     }
 
+    //*****************************LEGACY CODE*****************************************
+    //code that we either didnt need or for features we couldn't implement
+
     /*
-    this function will return a log recent sorts?
+    this function will return a log of most recent sort
      */
     public ArrayList<String> returnSortLog(){
+        //need to create new table in database to store the past file locations to then unsort
         ArrayList<String> empty = new ArrayList<>();
         return empty;
     }
 
-//old tests
+    /*
+    this function will  update the data base with for a files new location and/or new name if it exists
+     */
 
-    public static void main(String[] args) {
-        FileDatabase test = new FileDatabase();
-        test.DELETEWHOLETABLE();
-        test.createDefaultTable();
-        System.out.println(test.inDatabase("asldkjfla;skjdf"));
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test1.txt");
-        System.out.println(test.inDatabase("D:\\SAMPLE SORTING DIRECTORY\\test1.txt"));
+    public boolean deleteTag(String currentPath, int tagNum){
 
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test2.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt");
-        test.printTable();
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","third",3);
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test1.txt","first",1);
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test2.txt","second",2);
-        test.printTable();
-        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test3.txt"));
-
-        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test2.txt"));
-        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test1.txt"));
-        System.out.println(test.getFileSingleTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt"));
-        test.overwriteTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","yeet");
-        test.overwriteTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","yeet");
-        test.insertFile("D:\\SAMPLE SORTING DIRECTORY\\test4.txt");
-        test.overwriteTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","yeet");
-        test.addTag("D:\\SAMPLE SORTING DIRECTORY\\test4.txt","",1);
-        test.printTable();
-
-
-        /*
-        test.findTag("first");
-        ArrayList<String> bruh = test.returnTags("D:\\SAMPLE SORTING DIRECTORY\\test3.txt");
-        for(String temp: bruh){
-            if(!temp.isEmpty())
-            System.out.println("return tag:"+temp);
-        }
-        test.updateFile("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
-        test.updateFile("D:\\SAMPasdfasdfasdfLE SORTING DIRECTORY\\test1.txt","D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
-        //test.updateFileIfExist("D:\\SAMPLE SORTING DIRECTORY\\test3.txt","D:\\SAMPLE SORTING DIRECTORY\\please\\test4.txt");
-        test.printTable();
-        test.findTag("first");
-        bruh = test.returnTags("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
-        for(String temp: bruh){
-            if(!temp.isEmpty())
-                System.out.println("return tag:"+temp);
-        }
-        test.deleteFile("D:\\SAMPLE SORTING DIRECTORY\\FAKENAME.txt");
-        System.out.println("");
-        test.printTable();
-        */
-
+        String sql= "UPDATE FILEDB SET tag"+tagNum+"'' WHERE path = '"+currentPath+"'";
+        return sendStatement(sql);
     }
-
-
-
-
 }

@@ -11,11 +11,6 @@ public class MoveFile {
     public MoveFile(){
         db = new FileDatabase();
     }
-    //probably make this a static class or make all functions static
-    private String combine(String originalPath, String pathToAdd){
-        File original = new File(originalPath);
-        return new File(original,pathToAdd).toPath().normalize().toString();
-    }
 
 
     /*
@@ -44,6 +39,18 @@ public class MoveFile {
 
 
 
+
+
+    public boolean deleteFile(String currentPath) throws IOException{
+        File file = new File(currentPath);
+        db.deleteFile(file.getCanonicalPath());
+
+        return file.delete();
+    }
+
+    //*****************************LEGACY CODE*****************************************
+    //code that we either didnt need or for features we couldn't implement
+
     //this function will copy a single file from one directory to another
     public void copyFile(String currentPath,String newPath)throws IOException{
         Path from = Path.of(currentPath);
@@ -55,15 +62,6 @@ public class MoveFile {
         //standard copy operation makes this not fail if used on own directory
         db.copyFile(from.toRealPath().toString(),to.toRealPath().toString());
     }
-
-    public boolean deleteFile(String currentPath) throws IOException{
-        File file = new File(currentPath);
-        db.deleteFile(file.getCanonicalPath());
-
-        return file.delete();
-    }
-
-
 
 
 

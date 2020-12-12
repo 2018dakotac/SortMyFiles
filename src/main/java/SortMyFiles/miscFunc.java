@@ -2,7 +2,6 @@ package SortMyFiles;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 public class miscFunc {
 
@@ -11,7 +10,7 @@ public class miscFunc {
         return new File(original,pathToAdd).toPath().normalize().toString();
     }
 
-    public static Boolean isDirectoryPath(String path){
+    public static boolean isDirectoryPath(String path){
         File file = new File(path);
         return file.isDirectory();
     }

@@ -3,7 +3,6 @@ package SortMyFiles;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -11,8 +10,7 @@ import org.apache.commons.io.FilenameUtils;
 public class SortFile {
 
     private FileDatabase db;
-
-
+    //public constructor to make sure database object is created and secured connection to database
     public SortFile(){
         db = new FileDatabase();
     }
@@ -78,8 +76,8 @@ public class SortFile {
         db.updateFile(source.toAbsolutePath().normalize().toString(), dest.resolve(source.getFileName()).toAbsolutePath().normalize().toString());
     }
     /*
-            this function will move all  target directory to a location directory in a folder of their type
-             */
+    this function will move all  target directory to a location directory in a folder of their type
+     */
     private boolean moveFileExtRecursive(String currentPath,String newPath) throws IOException{
         Path source = Path.of(currentPath);
         Path destination =  Path.of(newPath);
@@ -101,8 +99,5 @@ public class SortFile {
                 });
         return true;
     }
-
-
-
 
 }
