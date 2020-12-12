@@ -2,7 +2,7 @@ package SortMyFiles;
 
 import java.sql.*;
 import java.util.ArrayList;
-//is it worth making this all static?
+
 /*
 NOTE:
 must pass absolute paths as strings for guaranteed functionality
