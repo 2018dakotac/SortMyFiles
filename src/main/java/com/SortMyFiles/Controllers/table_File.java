@@ -1,4 +1,4 @@
-package SortMyFiles.Controllers;
+package com.SortMyFiles.Controllers;
 
 public class table_File {
     private String name, directory;

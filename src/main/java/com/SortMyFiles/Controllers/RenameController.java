@@ -1,7 +1,7 @@
-package SortMyFiles.Controllers;
+package com.SortMyFiles.Controllers;
 
-import SortMyFiles.MoveFile;
-import SortMyFiles.miscFunc;
+import com.SortMyFiles.MoveFile;
+import com.SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

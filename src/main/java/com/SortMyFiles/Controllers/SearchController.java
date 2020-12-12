@@ -1,6 +1,6 @@
-package SortMyFiles.Controllers;
+package com.SortMyFiles.Controllers;
 
-import SortMyFiles.FileDatabase;
+import com.SortMyFiles.FileDatabase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,13 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
-import java.io.EOFException;
-import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 

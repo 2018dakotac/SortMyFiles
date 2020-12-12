@@ -1,6 +1,6 @@
 package testing;
 
-import SortMyFiles.FileDatabase;
+import com.SortMyFiles.FileDatabase;
 import org.junit.*;
 
 

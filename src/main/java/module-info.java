@@ -5,9 +5,9 @@ module SortMyFiles {
     requires java.sql;
     requires org.apache.commons.io;
 
-    opens SortMyFiles to javafx.fxml;
-    opens SortMyFiles.Controllers;
+    opens com.SortMyFiles to javafx.fxml;
+    opens com.SortMyFiles.Controllers;
 
-    exports SortMyFiles;
+    exports com.SortMyFiles;
 
 }

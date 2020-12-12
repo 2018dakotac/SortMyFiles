@@ -1,4 +1,4 @@
-package SortMyFiles.Controllers;
+package com.SortMyFiles.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

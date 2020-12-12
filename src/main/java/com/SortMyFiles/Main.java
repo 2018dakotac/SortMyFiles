@@ -1,4 +1,4 @@
-package SortMyFiles;
+package com.SortMyFiles;
 
 import javafx.application.Application;
 import javafx.scene.Parent;

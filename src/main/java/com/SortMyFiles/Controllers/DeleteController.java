@@ -1,9 +1,9 @@
-package SortMyFiles.Controllers;
+package com.SortMyFiles.Controllers;
 
-
-import SortMyFiles.SortFile;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.SortMyFiles.DirectoryFunctions;
+import com.SortMyFiles.FileDatabase;
+import com.SortMyFiles.MoveFile;
+import com.SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -23,23 +22,14 @@ import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class SortController implements Initializable {
-
-    ObservableList<String> sortbyList = FXCollections.observableArrayList("Extension", "Tag");
+public class DeleteController implements Initializable {
     @FXML
     private AnchorPane anchorRoot;
     @FXML
-    private ComboBox<String> Sortby;
-    @FXML
     private Button button_back;
     @FXML
-    private Label label_destination;
-    @FXML
     private Label Error_label;
-    public boolean dirchosen = false;
-
-
-
+    //Table
     @FXML
     private TableView<table_File> tableView;
     @FXML
@@ -47,16 +37,12 @@ public class SortController implements Initializable {
     @FXML
     private  TableColumn<table_File, String> colDirectory;
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb){
-        Sortby.setItems(sortbyList);
-        Sortby.setValue("Extension");
         //Table
         colName.setCellValueFactory(new PropertyValueFactory<table_File, String>("Name"));
         colDirectory.setCellValueFactory(new PropertyValueFactory<table_File, String>("Directory"));
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
     }
 
     @FXML
@@ -70,8 +56,8 @@ public class SortController implements Initializable {
             FileChooser fc = new FileChooser();
             //fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files","*pdf"));
             List<File> f = fc.showOpenMultipleDialog(null);
+            if( f != null) {
             for (File file : f) {
-                if( f != null) {
                     table_File newFile = new table_File(file.getName(), file.getAbsolutePath());
                     tableView.getItems().add(newFile);
                 }
@@ -95,8 +81,9 @@ public class SortController implements Initializable {
             //stub
         }
     }
+
     @FXML
-    private void deleteButton(ActionEvent event) {
+    private void deletefromlist(ActionEvent event) throws IOException{
         try {
             List<table_File> allfiles, selectedfiles;
             allfiles = tableView.getItems();
@@ -109,57 +96,51 @@ public class SortController implements Initializable {
             //stub
         }
     }
-
     @FXML
-    private void destination(ActionEvent event) throws  IOException {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File file = directoryChooser.showDialog(null);
-        if(file != null){
-            //label_destination.setText("Selected Destination : " + file.getAbsolutePath());
-            label_destination.setText(file.getAbsolutePath());
-            dirchosen = true;
+    private void deleteTag(ActionEvent event) throws IOException{
+        List<table_File> allfiles;
+        allfiles = tableView.getItems();
+        FileDatabase db = new FileDatabase();
+        for (table_File file : allfiles) {
+            db.deleteFile(file.getDirectory());
         }
+        //Delete the Tag on the file
+        tableView.getItems().clear();
     }
-
     @FXML
-    private void Sort(ActionEvent event)  {
-        //Ensure dir is selected
-        if(dirchosen == false){
+    private void Delete(ActionEvent event) throws IOException{
+        //Ensure table is not empty
+        if(tableView.getItems() == null){
             Error_label.setText("Error: Choose a destination directory");
         }
         else{
             try {
                 Error_label.setText("");
-                //Sort
-                String result = Sortby.getValue();
-                SortFile sort = new SortFile();
+                //delete from list
                 List<table_File> allfiles;
                 allfiles = tableView.getItems();
-                if(allfiles.isEmpty()){
-                    throw new IndexOutOfBoundsException();
-                }
-                if (result == "Extension") {
+                //should make a wrapper class that handles moving a directory or file to make this cleaner
+                if (miscFunc.isDirectoryPath(allfiles.get(0).getDirectory())) {
+                    DirectoryFunctions mvDir = new DirectoryFunctions();
                     for (table_File file : allfiles) {
-                        //need to parse file extension
-                        sort.extensionSort(file.getDirectory(), label_destination.getText());
-                    }
-                }  else if (result == "Tag") {
-                    for (table_File file : allfiles) {
-                        //need to parse file extension
-                        sort.tagSort(file.getDirectory(), label_destination.getText());
+                        mvDir.deleteDirectory(file.getDirectory());
                     }
                 } else {
-                    //stub
+                    MoveFile mv = new MoveFile();
+                    for (table_File file : allfiles) {
+                        mv.deleteFile(file.getDirectory());
+                    }
                 }
+
                 //clear table contents
                 tableView.getItems().clear();
-                //display a message files sorted
-                Error_label.setText("Files have been sorted :)");
+                //display a message files Deleted
+                Error_label.setText("Files have been deleted :)");
             }catch(UncheckedIOException e){
                 Error_label.setText("Error: " +e.getCause());
             }
             catch (FileAlreadyExistsException e){
-                Error_label.setText("Error: Files with the same names are being moved into a folder");
+                Error_label.setText("Error: Files with the same names are being moved");
             }
             catch (FileSystemException e){
                 Error_label.setText("Error: File is being used");
@@ -172,4 +153,5 @@ public class SortController implements Initializable {
             }
         }
     }
+
 }

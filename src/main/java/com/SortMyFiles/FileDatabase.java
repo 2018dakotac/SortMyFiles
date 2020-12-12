@@ -1,4 +1,4 @@
-package SortMyFiles;
+package com.SortMyFiles;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package testing;
 
-import SortMyFiles.DirectoryFunctions;
-import SortMyFiles.FileDatabase;
+import com.SortMyFiles.DirectoryFunctions;
+import com.SortMyFiles.FileDatabase;
 import org.junit.*;
 
 import java.io.File;

@@ -1,6 +1,9 @@
-package SortMyFiles.Controllers;
+package com.SortMyFiles.Controllers;
 
-import SortMyFiles.*;
+
+import com.SortMyFiles.DirectoryFunctions;
+import com.SortMyFiles.MoveFile;
+import com.SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +19,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystemException;
 import java.util.List;
 import java.util.ResourceBundle;

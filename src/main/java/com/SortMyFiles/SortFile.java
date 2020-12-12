@@ -1,4 +1,4 @@
-package SortMyFiles;
+package com.SortMyFiles;
 
 import java.io.*;
 import java.nio.file.Files;
