@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystemException;
@@ -123,6 +124,8 @@ public class DeleteController implements Initializable {
                 tableView.getItems().clear();
                 //display a message files Deleted
                 Error_label.setText("Files have been deleted :)");
+            }catch(UncheckedIOException e){
+                Error_label.setText("Error: " +e.getCause());
             }
             catch (FileAlreadyExistsException e){
                 Error_label.setText("Error: Files with the same names are being moved");

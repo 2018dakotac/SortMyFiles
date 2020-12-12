@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystemException;
@@ -128,6 +129,8 @@ public class TagController implements Initializable {
             //clear table contents
             tableView.getItems().clear();
             Error_label.setText("File has been tagged");
+        }catch(UncheckedIOException e){
+            Error_label.setText("Error: " +e.getCause());
         }
         catch (IndexOutOfBoundsException e) {
             Error_label.setText("Error: Ensure files are added to the list");

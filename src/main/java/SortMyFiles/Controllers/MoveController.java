@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.FileSystem;
@@ -147,6 +148,8 @@ public class MoveController implements Initializable {
                 label_destination.setText("");
                 //display a message files Moved
                 Error_label.setText("Files have been moved :)");
+            }catch(UncheckedIOException e){
+                Error_label.setText("Error: " +e.getCause());
             }
             catch (FileAlreadyExistsException e){
                 Error_label.setText("Error: Files with the same names are being moved");
