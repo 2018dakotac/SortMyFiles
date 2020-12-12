@@ -1,6 +1,7 @@
 package SortMyFiles.Controllers;
 
 import SortMyFiles.DirectoryFunctions;
+import SortMyFiles.FileDatabase;
 import SortMyFiles.MoveFile;
 import SortMyFiles.miscFunc;
 import javafx.event.ActionEvent;
@@ -99,8 +100,12 @@ public class DeleteController implements Initializable {
     private void deleteTag(ActionEvent event) throws IOException{
         List<table_File> allfiles;
         allfiles = tableView.getItems();
-
+        FileDatabase db = new FileDatabase();
+        for (table_File file : allfiles) {
+            db.deleteFile(file.getDirectory());
+        }
         //Delete the Tag on the file
+        tableView.getItems().clear();
     }
     @FXML
     private void Delete(ActionEvent event) throws IOException{
